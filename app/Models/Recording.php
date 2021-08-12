@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Recording extends Model
 {
     use HasFactory;
+    protected $casts = [
+        'date' => 'date:hh:mm'
+    ];
 
     public function category() {
         return $this->belongsTo(Category::class);

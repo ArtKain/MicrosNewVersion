@@ -23,18 +23,14 @@ class CategoryController extends Controller
         ]);
 
         $user = auth()->user();
-        if($user->category()->where('title' , $request->title)->exists())
+        if($user->categories()->where('title' , $request->title)->exists())
             return redirect()->back()->withErrors(['title' => 'Category already exists!']);
 
-
-        foreach($request->title as $categories)
-        {
-            $category = new Category();
-            $category->title = $categories;
-            $category->type_id = $request->type;
-            $category->user_id = $request->user()->id;
-            $category->save(); 
-        }
+        foreach($request->input('title') as $title)
+            $user->categories()->insert(
+                ['title' => $title,
+                'type_id' => $request->input('type')],
+            );
 
         return redirect()->route('category.create')->withSuccess('категории успешно добавлены');
     }

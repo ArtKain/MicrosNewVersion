@@ -17,7 +17,7 @@
                 <tr>
                     <td>{{$recording->type['title']}}</td>
                     <td>{{$recording->category['title']}}</td>
-                    <td>{{number_format($recording->sum, 2 , '.' , ' ')}}</td>
+                    <td>{{number_format($recording->sum / 100, 2 , '.' , ' ')}}</td>
                     <td>
                         <a class="btn btn-info btn-sm" href="{{route('recording.edit', $recording)}}">
                             <i class="fas fa-pencil-alt"></i>
@@ -41,22 +41,22 @@
             @if(!isset($sums['Доход']))
                 <div class="mb-3">
                     <p class="text-success">Доход : 0</p>
-                    <p class="text-danger">Расход : -{{number_format($sums['Расход'], 2, '.', ' ')}}</p>
+                    <p class="text-danger">Расход : -{{number_format($sums['Расход'] / 100, 2, '.', ' ')}}</p>
                 </div>
-                <p> Итог : {{number_format($sums['Расход'], 2, '.', ' ')}}</p>
+                <p> Итог : {{number_format($sums['Расход'] / 100, 2, '.', ' ')}}</p>
                     @elseif(!isset($sums['Расход']))
                     <div class="mb-3">
                         <p class="text-danger">Расход : 0</p>
-                        <p class="text-success">Доход : +{{number_format($sums['Доход'], 2, '.', ' ')}}</p>
+                        <p class="text-success">Доход : +{{number_format($sums['Доход'] / 100, 2, '.', ' ')}}</p>
                     </div>
-                        <p> Итог : {{number_format($sums['Доход'], 2, '.', ' ')}}</p>
+                        <p> Итог : {{number_format($sums['Доход'] / 100, 2, '.', ' ')}}</p>
                 @else
                 <div class="mb-3">
-                    <p class="text-success">Доход : +{{number_format($sums['Доход'], 2, '.', ' ')}}</p>
-                    <p class="text-danger">Расход : -{{number_format($sums['Расход'], 2, '.', ' ')}}</p>
+                    <p class="text-success">Доход : +{{number_format($sums['Доход'] / 100, 2, '.', ' ')}}</p>
+                    <p class="text-danger">Расход : -{{number_format($sums['Расход'] / 100, 2, '.', ' ')}}</p>
                 </div>
                     @php 
-                        $outcome = $sums['Доход'] - $sums['Расход'];
+                        $outcome = ($sums['Доход'] / 100) - ($sums['Расход'] / 100);
                     @endphp 
                     <p>Итог : {{number_format($outcome, 2, '.', ' ')}}</p> 
                         

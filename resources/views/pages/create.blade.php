@@ -11,14 +11,14 @@
                 <div class="mb-3">
                     <div class="form-group">
                         <label for="inputDate">Введите дату:</label>
-                        <input type="date" name="created_at" class="form-control">
+                        <input type="date" name="date" class="form-control">
                     </div>
                 </div>
                 <div class="mb-3">
                 <select class="form-select" name="category" id="category" aria-label="Default select example">
                     @foreach($types as $type)
                         <optgroup label="{{$type->title}}">
-                        @foreach($type->category()->where('user_id' , auth()->id())->get() as $category)
+                        @foreach($type->categories()->where('user_id' , auth()->id())->get() as $category)
                             <option value="{{$category->id}}">{{$category->title}}</option>
                         @endforeach
                         </optgroup>

@@ -11,14 +11,14 @@
                 <div class="mb-3">
                     <div class="form-group">
                         <label for="inputDate">Дата добления:</label>
-                        <h2>{{$recording->created_at}}</h2>
+                        <h2>{{$recording->date}}</h2>
                     </div>
                 </div>
                 <div class="mb-3">
                 <select class="form-select" name="category" id="category" aria-label="Default select example">
                     @foreach($types as $type)
                         <optgroup label="{{$type->title}}">
-                        @foreach($type->category as $category)
+                        @foreach($type->categories as $category)
                             <option value="{{$category->id}}" @if ($category->id == $recording->category_id) selected @endif>{{$category->title}}</option>
                         @endforeach
                         </optgroup>

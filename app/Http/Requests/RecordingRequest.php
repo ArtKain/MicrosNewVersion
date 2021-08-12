@@ -25,6 +25,7 @@ class RecordingRequest extends FormRequest
     {
         return [
             'sum' => 'required|numeric',
+            'category' => 'required',
         ];
     }
 }

@@ -15,11 +15,12 @@ class CreateRecordingsTable extends Migration
     {
         Schema::create('recordings', function (Blueprint $table) {
             $table->id();
-            $table->double('sum' , 15 , 2);
+            $table->integer('sum');
             $table->text('message')->nullable();
-            $table->foreignId('type_id')->constrained()->onDelete('cascade');
-            $table->foreignId('category_id')->constrained()->onDelete('cascade');
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('type_id')->constrained('types');
+            $table->foreignId('category_id')->constrained('categories');
+            $table->foreignId('user_id')->constrained('users');
+            $table->timestamp('date')->nullable();
             $table->timestamps();
         });
     }

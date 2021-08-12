@@ -11,11 +11,11 @@ class Type extends Model
 
     protected $fillable = ['title'];
 
-    public function category() {
+    public function categories() {
         return $this->hasMany(Category::class);
     }
 
-    public function recording() {
+    public function recordings() {
         return $this->hasMany(Recording::class);
     }
 }

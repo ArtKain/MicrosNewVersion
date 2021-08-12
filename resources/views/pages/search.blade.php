@@ -18,7 +18,7 @@
                     <tr>
                         <td>{{$recording->type['title']}}</td>
                         <td>{{$recording->category['title']}}</td>
-                        <td>{{number_format($recording->sum, 2 , '.' , ' ')}}</td>
+                        <td>{{number_format($recording->sum / 100, 2 , '.' , ' ')}}</td>
                         <td>
                             <a class="btn btn-info btn-sm" href="{{route('recording.edit', $recording)}}">
                                 <i class="fas fa-pencil-alt"></i>

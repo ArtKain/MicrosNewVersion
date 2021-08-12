@@ -25,8 +25,8 @@ Auth::routes();
 Route::group(['middleware' => ['auth']] , function() {
     Route::redirect('/home', 'recording');
     Route::resource('recording' , RecordingController::class);
-    Route::get('recording/category/create' , [CategoryController::class , 'create'])->name('category.create');
-    Route::post('recording/category/create/store' , [CategoryController::class , 'store'])->name('category.store');
+    Route::get('/category/create' , [CategoryController::class , 'create'])->name('category.create');
+    Route::post('/category/create/store' , [CategoryController::class , 'store'])->name('category.store');
     Route::get('/search' , [SearchController::class , 'search'])->name('search');
 });
 

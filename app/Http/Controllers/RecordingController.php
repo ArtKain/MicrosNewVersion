@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Type;
 use App\Models\Category;
 use App\Http\Requests\RecordingRequest;
+use Carbon\Carbon;
 
 class RecordingController extends Controller
 {
@@ -18,13 +19,12 @@ class RecordingController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $recordings = $user->recording()->orderBy('created_at' , 'desc')->get();
-        $type = Type::all();
+        $recordings = $user->recordings()->orderBy('created_at' , 'desc')->get();
         $sums = [];
 
-        foreach($type as $types) {
-            $sum = $types->recording()->where('user_id' , auth()->id())->sum('sum');
-            $sums[$types->title] = $sum;
+        foreach($recordings as $recording) {
+            $sum = $recording->where('type_id' , $recording->type['id'])->sum('sum');
+            $sums[$recording->type['title']] = $sum;
         }
 
         return view('pages.index' , [
@@ -54,14 +54,16 @@ class RecordingController extends Controller
     {
         $recording = new Recording();
 
-        $recording->sum = $request->sum;
-        $recording->message = $request->message;
-        $recording->category_id = $request->category;
-        $recording->type_id = Category::find($request->category)->type_id;
+        $recording->sum = $request->input('sum') * 100;
+        $recording->message = $request->input('message');
+        $recording->category_id = $request->input('category');
+        $recording->type_id = Category::find($request->input('category'))->type_id;
         $recording->user_id = $request->user()->id;
-        if(isset($request->created_at))
+        if($request->input('date') != null)
         {
-            $recording->created_at = $request->created_at;
+            $recording->date = $request->input('date');
+        } else {
+            $recording->date = Carbon::now(+5);
         }
 
         $recording->save();
@@ -104,10 +106,10 @@ class RecordingController extends Controller
      */
     public function update(RecordingRequest $request, Recording $recording)
     {
-        $recording->sum = $request->sum;
-        $recording->message = $request->message;
-        $recording->category_id = $request->category;
-        $recording->type_id = Category::find($request->category)->type_id;
+        $recording->sum = $request->input('sum');
+        $recording->message = $request->input('message');
+        $recording->category_id = $request->input('category');
+        $recording->type_id = Category::find($request->input('category'))->type_id;
 
         $recording->save();
 
