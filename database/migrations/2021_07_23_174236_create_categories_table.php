@@ -16,7 +16,8 @@ class CreateCategoriesTable extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->foreignId('type_id')->constrained('types');
+            $table->string('type');
+            $table->unique('title' , 'user_id');
             $table->timestamps();
         });
     }

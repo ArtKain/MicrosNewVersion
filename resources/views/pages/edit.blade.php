@@ -6,8 +6,9 @@
     <div class="row">
         <div class="col-lg-4 mx-auto">
             <h3>Обновить запись:</h3></br>
-            <form action="{{route('recording.store')}}" method="post">
+            <form action="{{route('recording.update' , $recording->id)}}" method="post">
             @csrf
+                @method('PATCH')
                 <div class="mb-3">
                     <div class="form-group">
                         <label for="inputDate">Дата добления:</label>
@@ -16,13 +17,16 @@
                 </div>
                 <div class="mb-3">
                 <select class="form-select" name="category" id="category" aria-label="Default select example">
-                    @foreach($types as $type)
-                        <optgroup label="{{$type->title}}">
-                        @foreach($type->categories as $category)
-                            <option value="{{$category->id}}" @if ($category->id == $recording->category_id) selected @endif>{{$category->title}}</option>
+                    <optgroup label="Доход">
+                        @foreach($categories['income'] as $category)
+                            <option value="{{$category->id}}" @if ($category->id == $recording->category_id) selected @endif">{{$category->title}}</option>
                         @endforeach
-                        </optgroup>
-                    @endforeach
+                    </optgroup>
+                    <optgroup label="Расход">
+                        @foreach($categories['expence'] as $category)
+                            <option value="{{$category->id}}" @if ($category->id == $recording->category_id) selected @endif">{{$category->title}}</option>
+                        @endforeach
+                    </optgroup>
                 </select>
                 </div>
                 <div class="mb-3">

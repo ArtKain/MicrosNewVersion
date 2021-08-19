@@ -17,10 +17,10 @@
                     <a class="nav-link" href="{{route('recording.index')}}">Все записи</a>
                     <a class="nav-link" href="{{route('category.create')}}">Добавить Категорию</a>
                 <form class="d-flex" action="{{route('search')}}">
-                <input class="form-control me-2" type="search" name="search" placeholder="Search" aria-label="Search">
+                <input class="form-control me-2" type="search" name="search" placeholder="Search" aria-label="Search" value="{{request('search')}}">
                 <button class="btn btn-outline-warning" type="submit">Search</button>
                 </form>
-                <a class="btn btn-sm btn-outline-secondary"  href="{{ route('logout') }}" 
+                <a class="btn btn-sm btn-outline-secondary"  href="{{ route('logout') }}"
                 onclick="event.preventDefault();
                 document.getElementById('logout-form').submit();">
                 Sign up</a>
@@ -31,7 +31,7 @@
             </nav>
             @include('inc.message')
             <div class="mt-5">
-                @yield('content') 
+                @yield('content')
             </div>
         </div>
     </div>

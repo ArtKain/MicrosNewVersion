@@ -18,15 +18,15 @@ use App\Http\Controllers\SearchController;
 |
 */
 
-Route::redirect('/' , '/home');
+Route::redirect('/' , 'recording');
 
 Auth::routes();
 
 Route::group(['middleware' => ['auth']] , function() {
-    Route::redirect('/home', 'recording');
     Route::resource('recording' , RecordingController::class);
     Route::get('/category/create' , [CategoryController::class , 'create'])->name('category.create');
     Route::post('/category/create/store' , [CategoryController::class , 'store'])->name('category.store');
+    Route::post('/category/tag' , [CategoryController::class , 'tag'])->name('category.tag');
     Route::get('/search' , [SearchController::class , 'search'])->name('search');
 });
 

@@ -16,13 +16,16 @@
                 </div>
                 <div class="mb-3">
                 <select class="form-select" name="category" id="category" aria-label="Default select example">
-                    @foreach($types as $type)
-                        <optgroup label="{{$type->title}}">
-                        @foreach($type->categories()->where('user_id' , auth()->id())->get() as $category)
+                    <optgroup label="Доход">
+                    @foreach($categories['income'] as $category)
                             <option value="{{$category->id}}">{{$category->title}}</option>
-                        @endforeach
-                        </optgroup>
                     @endforeach
+                    </optgroup>
+                    <optgroup label="Расход">
+                        @foreach($categories['expence'] as $category)
+                            <option value="{{$category->id}}">{{$category->title}}</option>
+                    @endforeach
+                    </optgroup>
                 </select>
                 </div>
                 <div class="mb-3">

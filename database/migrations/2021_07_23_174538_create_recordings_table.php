@@ -17,7 +17,7 @@ class CreateRecordingsTable extends Migration
             $table->id();
             $table->integer('sum');
             $table->text('message')->nullable();
-            $table->foreignId('type_id')->constrained('types');
+            $table->string('type');
             $table->foreignId('category_id')->constrained('categories');
             $table->foreignId('user_id')->constrained('users');
             $table->timestamp('date')->nullable();

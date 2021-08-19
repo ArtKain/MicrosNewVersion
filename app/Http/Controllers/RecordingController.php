@@ -19,13 +19,11 @@ class RecordingController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $recordings = $user->recordings()->orderBy('created_at' , 'desc')->get();
+        $recordings = $user->recordings()->latest()->get();
         $sums = [];
 
-        foreach($recordings as $recording) {
-            $sum = $recording->where('type_id' , $recording->type['id'])->sum('sum');
-            $sums[$recording->type['title']] = $sum;
-        }
+        $sums['Доход'] = $recordings->where('type' , 'Доход')->sum('sum');
+        $sums['Расход'] = $recordings->where('type' , 'Расход')->sum('sum');
 
         return view('pages.index' , [
             'recordings' => $recordings,
@@ -40,8 +38,15 @@ class RecordingController extends Controller
      */
     public function create()
     {
-        $types = Type::all();
-        return view('pages.create' , compact('types'));
+        $user = auth()->user();
+        $income = $user->categories()->where('type' , 'Доход')->get();
+        $expence = $user->categories()->where('type' , 'Расход')->get();
+
+        $categories = ['income' => $income, 'expence' => $expence];
+
+        // fixed
+
+        return view('pages.create' , compact('categories'));
     }
 
     /**
@@ -57,7 +62,7 @@ class RecordingController extends Controller
         $recording->sum = $request->input('sum') * 100;
         $recording->message = $request->input('message');
         $recording->category_id = $request->input('category');
-        $recording->type_id = Category::find($request->input('category'))->type_id;
+        $recording->type = Category::find($request->input('category'))->type;
         $recording->user_id = $request->user()->id;
         if($request->input('date') != null)
         {
@@ -90,10 +95,14 @@ class RecordingController extends Controller
      */
     public function edit(Recording $recording)
     {
-        $types = Type::all();
+        $user = auth()->user();
+        $income = $user->categories()->where('type' , 'Доход')->select('title')->get();
+        $expence = $user->categories()->where('type' , 'Расход')->select('title')->get();
+
+        $categories = ['income' => $income, 'expence' => $expence];
         return view('pages.edit' , [
             'recording' => $recording,
-            'types' => $types,
+            'categories' => $categories,
         ]);
     }
 
@@ -109,7 +118,7 @@ class RecordingController extends Controller
         $recording->sum = $request->input('sum');
         $recording->message = $request->input('message');
         $recording->category_id = $request->input('category');
-        $recording->type_id = Category::find($request->input('category'))->type_id;
+        $recording->type = Category::find($request->input('category'))->type;
 
         $recording->save();
 

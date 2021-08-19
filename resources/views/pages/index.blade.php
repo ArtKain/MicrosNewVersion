@@ -15,13 +15,13 @@
             <tbody>
             @foreach($recordings as $recording)
                 <tr>
-                    <td>{{$recording->type['title']}}</td>
+                    <td>{{$recording->category['type']}}</td>
                     <td>{{$recording->category['title']}}</td>
                     <td>{{number_format($recording->sum / 100, 2 , '.' , ' ')}}</td>
                     <td>
-                        <a class="btn btn-info btn-sm" href="{{route('recording.edit', $recording)}}">
+                        <a class="btn btn-info btn-sm" href="{{route('recording.edit', $recording->id)}}">
                             <i class="fas fa-pencil-alt"></i>
-                                Редактировать 
+                                Редактировать
                         </a>
                         <form action="{{route('recording.destroy' , $recording->id)}}" method="POST" style="display: inline-block">
                             @csrf
@@ -55,11 +55,11 @@
                     <p class="text-success">Доход : +{{number_format($sums['Доход'] / 100, 2, '.', ' ')}}</p>
                     <p class="text-danger">Расход : -{{number_format($sums['Расход'] / 100, 2, '.', ' ')}}</p>
                 </div>
-                    @php 
+                    @php
                         $outcome = ($sums['Доход'] / 100) - ($sums['Расход'] / 100);
-                    @endphp 
-                    <p>Итог : {{number_format($outcome, 2, '.', ' ')}}</p> 
-                        
+                    @endphp
+                    <p>Итог : {{number_format($outcome, 2, '.', ' ')}}</p>
+
             @endif
         @endif
         @else
